@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Terminal=false
+Type=Application
+Name=Duplicati
+Exec=/usr/bin/xdg-open http://localhost:8200
+Icon=/usr/share/icons/hicolor/scalable/apps/docker-duplicati.svg
+Categories=Docker; 
