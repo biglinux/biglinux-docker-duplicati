@@ -1,0 +1,54 @@
+# The version of the docker-compose file being used. Version 3.9 offers most of the current Docker Compose features.
+version: "3.9"
+services:
+    # The name of the service to be started. In this case, the service is duplicati.
+    duplicati:
+        # The Docker image to be used to create the container. In this case, it is the latest image of duplicati from linuxserver.
+        image: linuxserver/duplicati:latest
+        # The name to be given to the container.
+        container_name: duplicati
+        environment:
+            # Set the User ID. In Unix-like operating systems, 0 is the ID of the root user.
+            - PUID=0
+            # Set the Group ID. In Unix-like operating systems, 0 is the ID of the root group.
+            - PGID=0
+            # (Commented) Set the timezone of the container.
+            #- TZ=America/Sao_Paulo
+            # (Commented) Optional command line arguments for Duplicati.
+            #- CLI_ARGS= #optional
+        volumes:
+            # Maps the Duplicati configuration directory on the host machine to the configuration directory within the container.
+            - ${HOME}/Docker/Duplicati/config:/config
+            # Maps the Duplicati backups directory on the host machine to the backups directory within the container.
+            - ${HOME}/Docker/Duplicati/backups:/backups
+            # Maps the root directory of the host machine to the source directory within the container.
+            - /:/source
+        ports:
+            # Maps port 8200 of the host to port 8200 of the container, which is the default port for Duplicati.
+            - "8200:8200"
+        deploy:
+            resources:
+                limits:
+                    # Limits the CPU usage by the container to 2 cores.
+                    cpus: '2'
+                    # Limits the memory usage by the container to 2GB.
+                    memory: 2G
+        healthcheck:
+            # Checks the health of the container using curl to access port 8200.
+            test: ["CMD", "curl", "-f", "http://127.0.0.1:8200"]
+            # The interval between each health check.
+            interval: 30s
+            # The maximum amount of time a health check can take before it is considered a failure.
+            timeout: 10s
+            # The number of consecutive health check failures required for the container to be considered unhealthy.
+            retries: 6
+        # The restart policy of the container. "always" means the container will be restarted regardless of the exit status.
+        restart: always
+        networks:
+            # The Docker network to which the container will be connected.
+            big-net:
+networks:
+    # Defines the network to be created.
+    big-net:
+        # The name to be assigned to the network.
+        name: big-net
