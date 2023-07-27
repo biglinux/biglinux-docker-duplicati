@@ -46,9 +46,9 @@ services:
         restart: always
         networks:
             # The Docker network to which the container will be connected.
-            big-net:
+            - duplicati-net
 networks:
     # Defines the network to be created.
-    big-net:
+    duplicati-net:
         # The name to be assigned to the network.
-        name: big-net
+        name: duplicati-net
