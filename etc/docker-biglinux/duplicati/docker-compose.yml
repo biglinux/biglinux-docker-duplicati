@@ -1,5 +1,3 @@
-# The version of the docker-compose file being used. Version 3.9 offers most of the current Docker Compose features.
-version: "3.9"
 services:
     # The name of the service to be started. In this case, the service is duplicati.
     duplicati:
